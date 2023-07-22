@@ -39,15 +39,11 @@ public class MySecurityConfig {
 	@Autowired
 	private UserDetailServiceImpl userdetailservice;
 	
-//	@Bean
-//    public UserDetailsService userDetailsService() {
-//        return new ShopmeUserDetailsService();
-//    }
  
-    @SuppressWarnings("deprecation")
+    
 	@Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
  
     @Bean
