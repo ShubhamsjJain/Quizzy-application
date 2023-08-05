@@ -1,5 +1,8 @@
 package com.simplilearn.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="questions")
@@ -23,7 +27,11 @@ public class Question {
 	private String option2;
 	private String option3;
 	private String option4;
+	
 	private String answer;
+	
+	@Transient
+	private String givenAnswer;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Quiz quiz;
@@ -34,8 +42,12 @@ public class Question {
 	
 	
 
+	
+
+
+
 	public Question(Long qid, String question, String image, String option1, String option2, String option3,
-			String option4, String answer, Quiz quiz) {
+			String option4, String answer, String givenAnswer, Quiz quiz) {
 		super();
 		this.qid = qid;
 		this.question = question;
@@ -45,8 +57,13 @@ public class Question {
 		this.option3 = option3;
 		this.option4 = option4;
 		this.answer = answer;
+		this.givenAnswer = givenAnswer;
 		this.quiz = quiz;
 	}
+
+
+
+
 
 
 
@@ -106,10 +123,12 @@ public class Question {
 		this.option4 = option4;
 	}
 
+	
 	public String getAnswer() {
 		return answer;
 	}
 
+	
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
@@ -124,6 +143,26 @@ public class Question {
 
 	public void setQuiz(Quiz quiz) {
 		this.quiz = quiz;
+	}
+
+
+
+
+
+
+
+	public String getGivenAnswer() {
+		return givenAnswer;
+	}
+
+
+
+
+
+
+
+	public void setGivenAnswer(String givenAnswer) {
+		this.givenAnswer = givenAnswer;
 	}
 	
 	
