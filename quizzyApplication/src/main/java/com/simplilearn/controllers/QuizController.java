@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.simplilearn.entity.Category;
 import com.simplilearn.entity.Quiz;
+import com.simplilearn.service.CategoryService;
 import com.simplilearn.service.QuizService;
 
 @RestController
@@ -25,6 +27,9 @@ public class QuizController {
 	
 	@Autowired
 	private QuizService quizservice;
+	
+	@Autowired
+	private CategoryService catService;
 	
 	//Add Quiz
 	
@@ -43,12 +48,40 @@ public class QuizController {
 		return ResponseEntity.ok(quizservice.getQuizzes());
 	}
 	
-	//Get Quiz
+	//Get Quiz by quiz id
 	
 	@GetMapping("/{quiz_id}")
 	public ResponseEntity<Quiz> getQuiz(@PathVariable("quiz_id") Long quiz_id){
 		
 		return ResponseEntity.ok(quizservice.getQuizById(quiz_id));
+	}
+	
+	//Get quizzes by category
+	
+	@GetMapping("/category/{cid}")
+	public ResponseEntity<List<Quiz>> quizzesByCategoryId(@PathVariable("cid") Long cat_id){
+		
+		Category cat = catService.getCategoryById(cat_id);
+		
+		return ResponseEntity.ok(quizservice.getQuizzesByCategory(cat));
+	
+	}
+	
+	//Get Active quizzes
+	
+	@GetMapping("/active")
+	public ResponseEntity<List<Quiz>> getAllActiveQuizzes(){
+		
+		return ResponseEntity.ok(quizservice.getQuizzesByActiveStatus());
+	}
+	
+	//Get Active quizzes by category
+	
+	@GetMapping("/active/category/{cid}")
+	public ResponseEntity<List<Quiz>> getActiveQuizzesByCategory(@PathVariable("cid") Long cid){
+		
+		Category category = catService.getCategoryById(cid);
+		return ResponseEntity.ok(quizservice.getQuizzesByCategoryAndActiveStatus(category));
 	}
 	
 	//Update quiz

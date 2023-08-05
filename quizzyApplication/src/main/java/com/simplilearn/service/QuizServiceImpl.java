@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.simplilearn.entity.Category;
 import com.simplilearn.entity.Quiz;
 import com.simplilearn.repo.QuizRepository;
 
@@ -41,10 +42,34 @@ public class QuizServiceImpl implements QuizService {
 	@Override
 	public void deleteQuiz(Long qid) {
 		
-		Quiz quiz = new Quiz();
-		quiz.setQuiz_id(qid);
-		quizrepo.delete(quiz);
+		quizrepo.deleteById(qid);
 		
 	}
+
+	@Override
+	public List<Quiz> getQuizzesByCategory(Category category) {
+		
+		List<Quiz> quizzes = quizrepo.findByCategory(category);
+		
+		return quizzes;
+	}
+
+	//Get Active Quizzes
+	
+	@Override
+	public List<Quiz> getQuizzesByActiveStatus() {
+		
+		List<Quiz> quizzes = quizrepo.findByActive(true);
+		return quizzes;
+	}
+
+	@Override
+	public List<Quiz> getQuizzesByCategoryAndActiveStatus(Category category) {
+		
+		List<Quiz> quizzes = quizrepo.findByCategoryAndActive(category, true);
+		return quizzes;
+		
+	}
+
 
 }
